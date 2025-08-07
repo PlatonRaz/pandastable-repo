@@ -116,7 +116,7 @@ class PlotViewer(Frame):
         else:
             self.main = Toplevel()
             self.master = self.main
-            self.main.title('Plot Viewer')
+            self.main.title('Thermal Rating Graph')
             self.main.protocol("WM_DELETE_WINDOW", self.close)
             g = '800x700+900+200'
             self.main.geometry(g)
@@ -1470,10 +1470,13 @@ class MPLBaseOptions(TkOptions):
         """Setup variables"""
 
         self.parent = parent
+
         if self.parent is not None:
             df = self.parent.table.model.df
             datacols = list(df.columns)
             datacols.insert(0,'')
+
+
         else:
             datacols=[]
         fonts = util.getFonts()
@@ -1488,14 +1491,14 @@ class MPLBaseOptions(TkOptions):
         self.groups = OrderedDict((key, grps[key]) for key in order)
         opts = self.opts = {'font':{'type':'combobox','default':self.defaultfont,'items':fonts},
                 'fontsize':{'type':'scale','default':12,'range':(5,40),'interval':1,'label':'font size'},
-                'marker':{'type':'combobox','default':'','items': markers},
+                'marker':{'type':'combobox','default':'o','items': markers},
                 'linestyle':{'type':'combobox','default':'-','items': linestyles},
                 'ms':{'type':'scale','default':5,'range':(1,80),'interval':1,'label':'marker size'},
-                'grid':{'type':'checkbutton','default':0,'label':'show grid'},
+                'grid':{'type':'checkbutton','default':0,'label':'show grid','default':1},
                 'logx':{'type':'checkbutton','default':0,'label':'log x'},
                 'logy':{'type':'checkbutton','default':0,'label':'log y'},
                 #'rot':{'type':'entry','default':0, 'label':'xlabel angle'},
-                'use_index':{'type':'checkbutton','default':1,'label':'use index'},
+                'use_index':{'type':'checkbutton','default':1,'label':'use index','default':0,},
                 'errorbars':{'type':'checkbutton','default':0,'label':'errorbar column'},
                 'clrcol':{'type':'combobox','items':datacols,'label':'color by value','default':''},
                 'cscale':{'type':'combobox','items':scales,'label':'color scale','default':'linear'},
@@ -1900,7 +1903,7 @@ class ExtraOptions(TkOptions):
                             'ymin':{'type':'entry','default':'','label':'y min'},
                             'ymax':{'type':'entry','default':'','label':'y max'},
                             'major x-ticks':{'type':'entry','default':0},
-                            'major y-ticks':{'type':'entry','default':0},
+                            'major y-ticks':{'type':'entry','default':30},
                             'minor x-ticks':{'type':'entry','default':0},
                             'minor y-ticks':{'type':'entry','default':0},
                             'formatter':{'type':'combobox','items':formats,'default':'auto'},
